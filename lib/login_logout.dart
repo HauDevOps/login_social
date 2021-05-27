@@ -10,8 +10,6 @@ class LogInLogOut {
   static GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   static final FacebookLogin facebookLogin = FacebookLogin();
 
-  String _message = 'Log in/out by pressing the buttons below.';
-
   static Future<void> loginGoogle(BuildContext context) async {
     await _googleSignIn.signIn().then((userData) {
       Navigator.push(
@@ -29,25 +27,30 @@ class LogInLogOut {
     }).catchError((e) {});
   }
 
-  static Future<void> loginFacebook(BuildContext context) async {
-    final FacebookLoginResult result =
-    await facebookLogin.logIn(['email']);
+  static Future loginFacebook(BuildContext context) async {
+    final FacebookLoginResult result = await facebookLogin.logIn(['email']);
+
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final FacebookAccessToken accessToken = result.accessToken;
-        final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=first_name,picture&access_token=${accessToken.token}');
+        final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=first_name,last_name,picture&access_token=${accessToken.token}');
         final profile = jsonDecode(graphResponse.body);
-
+        print(profile);
 
         print('''
          Logged in!
-         
          Token: ${accessToken.token}
          User id: ${accessToken.userId}
          Expires: ${accessToken.expires}
          Permissions: ${accessToken.permissions}
          Declined permissions: ${accessToken.declinedPermissions}
          ''');
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => PageInformation(facebookLogin: profile,)));
+
         break;
       case FacebookLoginStatus.cancelledByUser:
         print('Login cancelled by the user.');
