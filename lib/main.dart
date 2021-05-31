@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:login_social/page/page_information_bloc.dart';
+import 'package:login_social/page/page_information_page.dart';
 
-import 'login_logout.dart';
+import 'bloc/basic_bloc.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -11,7 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: BlocProvider(
+        child: MyHomePage(),
+        bloc: PageInformationBloc(),
+      ),
     );
   }
 }
@@ -25,6 +31,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  PageInformationBloc bloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    bloc = BlocProvider.of<PageInformationBloc>(context);
+
+    bloc.facebookStream.listen((value) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => PageInformation(facebookLogin: value)));
+    }).onError((error){
+      print(error);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ElevatedButton(onPressed: (){
-              LogInLogOut.loginGoogle(context);
+
             }, child: Text('Login with Google'),),
             ElevatedButton(onPressed: (){
-              LogInLogOut.loginFacebook(context);
+              print('Click Button Login FB');
+              bloc.loginFacebook();
             }, child: Text('Login with Facebook'),),
           ],
         ),
