@@ -1,11 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:login_social/page/page_information_bloc.dart';
-import 'package:login_social/page/page_information_page.dart';
+import 'package:login_social/page/home/home_bloc.dart';
+import 'package:login_social/page/home/home_page.dart';
+import 'base/basic_bloc.dart';
 
-import 'bloc/basic_bloc.dart';
 
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -15,56 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: BlocProvider(
-        child: MyHomePage(),
-        bloc: PageInformationBloc(),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  PageInformationBloc bloc;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    bloc = BlocProvider.of<PageInformationBloc>(context);
-
-    bloc.facebookStream.listen((value) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => PageInformation(facebookLogin: value)));
-    }).onError((error){
-      print(error);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Login'),),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ElevatedButton(onPressed: (){
-              print('Click Button Login Google');
-              bloc.loginGoogle();
-            }, child: Text('Login with Google'),),
-            ElevatedButton(onPressed: (){
-              print('Click Button Login FB');
-              bloc.loginFacebook();
-            }, child: Text('Login with Facebook'),),
-          ],
-        ),
+        child: HomePage(),
+        bloc: HomeBloc(),
       ),
     );
   }
