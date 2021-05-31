@@ -56,7 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ElevatedButton(onPressed: (){
-
+              print('Click Button Login Google');
+              bloc.loginGoogle();
             }, child: Text('Login with Google'),),
             ElevatedButton(onPressed: (){
               print('Click Button Login FB');
