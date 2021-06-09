@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:login_social/models/banner_model.dart';
 import 'package:login_social/models/facebook_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:login_social/models/user_model.dart';
@@ -37,7 +40,7 @@ class Api{
         return new Future.error(result.errorMessage);
     }
 
-    return UserModel(name: '${facebookModel.firstName + facebookModel.lastName}', urlImage: facebookModel.picture.data.url);
+    return UserModel(name: '${facebookModel.firstName + ' ' + facebookModel.lastName}', urlImage: facebookModel.picture.data.url);
   }
 
   Future<UserModel> loginGoogle() async{
@@ -52,7 +55,15 @@ class Api{
       new Future.error(e.toString());
     });
 
-    return UserModel(name: googleSignInAccount.displayName, urlImage: googleSignInAccount.photoUrl);
+    return UserModel(name: googleSignInAccount.displayName, urlImage: googleSignInAccount.photoUrl, email: googleSignInAccount.email);
+  }
+
+  Future<BannerEntity> getBanner() async{
+    var response = await Dio().get('https://api.tiki.vn/v2/home/banners/v2');
+    if (response.statusCode != HttpStatus.ok) {
+      return new Future.error(response.statusMessage);
+    }
+    return BannerEntity.fromJson(response.data);
   }
 
 }

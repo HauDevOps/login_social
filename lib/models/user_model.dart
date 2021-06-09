@@ -1,8 +1,8 @@
 class UserModel{
 
-  UserModel({this.name, this.age, this.urlImage});
+  UserModel({this.name, this.email, this.urlImage});
 
   String name;
-  String age;
+  String email;
   String urlImage;
 }

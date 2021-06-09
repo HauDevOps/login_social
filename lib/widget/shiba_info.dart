@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:login_social/models/user_model.dart';
 
-class InfoUserPage extends StatefulWidget {
-  const InfoUserPage({Key key, this.user}) : super(key: key);
-
-  final UserModel user;
+class ShibaInfor extends StatefulWidget {
+  const ShibaInfor({Key key}) : super(key: key);
 
   @override
-  _InfoUserPageState createState() => _InfoUserPageState();
+  _ShibaInforState createState() => _ShibaInforState();
 }
 
-class _InfoUserPageState extends State<InfoUserPage> {
+class _ShibaInforState extends State<ShibaInfor> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,7 +26,7 @@ class _InfoUserPageState extends State<InfoUserPage> {
                     width: 50,
                     child: ClipOval(
                       child: Image.network(
-                        widget.user.urlImage ?? '',
+                        'https://sieupet.com/sites/default/files/pictures/images/gia-cho-shiba-inu-02.jpg',
                         fit: BoxFit.cover,
                       ),
                     )),
@@ -42,14 +39,14 @@ class _InfoUserPageState extends State<InfoUserPage> {
                       CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.user.name ?? '',
+                          'Shiba',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 23,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          widget.user.email ?? 'Mobile Application Developer',
+                          'Mobile Application Developer',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,

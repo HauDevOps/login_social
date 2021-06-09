@@ -1,0 +1,90 @@
+import 'package:flutter/material.dart';
+import 'package:login_social/models/user_model.dart';
+
+class InfoUserPage extends StatefulWidget {
+  const InfoUserPage({Key key, this.user}) : super(key: key);
+
+  final UserModel user;
+
+  @override
+  _InfoUserPageState createState() => _InfoUserPageState();
+}
+
+class _InfoUserPageState extends State<InfoUserPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Info User'),
+      ),
+      body: Container(
+        padding: EdgeInsets.only(left: 15, right: 32, top: 32),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+                height: 100,
+                width: 100,
+                child: ClipOval(
+                  child: Image.network(
+                    widget.user.urlImage ?? '',
+                    fit: BoxFit.cover,
+                  ),
+                )),
+            SizedBox(width: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      widget.user.name ?? '',
+                      style: TextStyle(
+                          color: Colors.grey[800],
+                          fontFamily: "Roboto",
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      widget.user.email ?? 'Mobile Application Developer',
+                      style: TextStyle(
+                          color: Colors.grey[500],
+                          fontFamily: "Roboto",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      height: 30,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.lightGreenAccent[400],
+                        ),
+                        color: Colors.lightGreenAccent[400],
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Center(
+                        child: Text('Đã xác thực', style: TextStyle(color: Colors.white),),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Icon(
+                Icons.qr_code,
+                color: Colors.blue,
+                size: 30,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
